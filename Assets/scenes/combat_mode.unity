@@ -307,9 +307,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 572019481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: cb934e1c8ab00984fb9147ca6941164d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joystickArea: {fileID: 1412499780}
 --- !u!114 &572019484
 MonoBehaviour:
   m_ObjectHideFlags: 0
