@@ -1,1 +1,4 @@
-sceneSetups: []
+sceneSetups:
+- path: Assets/scenes/combat_mode.unity
+  isLoaded: 1
+  isActive: 1
