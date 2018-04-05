@@ -904,6 +904,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1565188937}
   joypad: {fileID: 572019483}
+  anim: {fileID: 0}
+  isRight: 0
 --- !u!70 &1565188940
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
