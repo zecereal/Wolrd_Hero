@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour {
     public GameObject player;
     public JoypadController joypad;
+    public GameObject button;
     public Animator anim;
     public bool isRight;
     
@@ -15,12 +17,31 @@ public class PlayerController : MonoBehaviour {
         isRight = true;
 	}
 	
+    void attack()
+    {
+        if (CrossPlatformInputManager.GetButtonDown("attack"))
+        {
+            if (isRight)
+            {
+                anim.Play("attack_pistol_R");
+            }
+            else
+            {
+                anim.Play("attack_pistol_L");
+            }
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
+
         //Input.GetAxis("Horizontal") *
         var x = Time.deltaTime * 100.0f * joypad.GetTouchPosition.x;
         var y = Time.deltaTime * 100.0f * joypad.GetTouchPosition.y;
         transform.Translate(x, y, 0);
+
+        attack();
+
         if (joypad.GetTouchPosition.x > 0)
         {
             isRight = true;
