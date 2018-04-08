@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -9,7 +10,6 @@ public class PlayerController : MonoBehaviour {
     public GameObject button;
     public Animator anim;
     public bool isRight;
-    
 
     // Use this for initialization
     void Start () {
@@ -32,16 +32,16 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
+    void movement()
+    {
+        var positionX = Time.deltaTime * 100.0f * joypad.GetTouchPosition.x;
+        var positionY = Time.deltaTime * 100.0f * joypad.GetTouchPosition.y;
+        transform.Translate(positionX, positionY, 0);
+        flip();
+    }
 
-        //Input.GetAxis("Horizontal") *
-        var x = Time.deltaTime * 100.0f * joypad.GetTouchPosition.x;
-        var y = Time.deltaTime * 100.0f * joypad.GetTouchPosition.y;
-        transform.Translate(x, y, 0);
-
-        attack();
-
+    private void flip()
+    {
         if (joypad.GetTouchPosition.x > 0)
         {
             isRight = true;
@@ -53,16 +53,22 @@ public class PlayerController : MonoBehaviour {
             anim.Play("walk_L");
         }
 
-        if (joypad.GetTouchPosition.x ==0 && joypad.GetTouchPosition.y==0)
+        if (joypad.GetTouchPosition.x == 0 && joypad.GetTouchPosition.y == 0)
         {
-            if(isRight)
+            if (isRight)
             {
                 anim.Play("idle_R");
             }
             else
             {
                 anim.Play("idle_L");
-            } 
+            }
         }
+    }
+
+    // Update is called once per frame
+    void Update () {
+        movement();
+        attack();
     }
 }
