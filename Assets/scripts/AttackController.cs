@@ -27,5 +27,5 @@ public class AttackController : MonoBehaviour, IPointerUpHandler,IPointerDownHan
     public void OnPointerUp(PointerEventData eventData)
     {
         Pressed = false;
-    }
+    }    
 }

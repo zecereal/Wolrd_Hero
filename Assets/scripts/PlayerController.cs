@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    [SerializeField]
-    private string animationState;
-    [SerializeField]
-    private string frameState;
+    //[SerializeField]
+    //private string animationState;
+    //[SerializeField]
+    //private string frameState;
 
     public GameObject player;
     public GameObject bullet_Right;
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
     private bool isRight;
     private float movementSpeed;
     private float dashSpeed;
-
+    
     private Vector2 bulletPosition;
     private float firerate = 0.3f;
     private float nextfire = 0.0f;
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour {
         
     }
 
-    public void ChangeAnimationState(string state)
+    /*public void ChangeAnimationState(string state)
     {
         this.animationState = state;
     }
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
     public void ChangeFrameState(string state)
     {
         this.frameState = state;
-    }
+    }*/
 
     void attack()
     {
