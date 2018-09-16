@@ -3,29 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LeftButton : MonoBehaviour, IPointerUpHandler,IPointerDownHandler{
+public class LeftButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler {
 
     [HideInInspector]
     public bool Pressed;
 
-    void Start ()
-    {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
+    void Start () {
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    }
+
+    // Update is called once per frame
+    void Update () {
+
+    }
+
+    public void OnPointerDown (PointerEventData eventData) {
         Pressed = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
+    public void OnPointerUp (PointerEventData eventData) {
         Pressed = false;
-    }    
+    }
 }

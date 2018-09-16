@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
     void attack()
     {
         //if (attackButton.Pressed && Time.time > nextfire) 
-        if (Input.GetKeyDown("space") && Time.time > nextfire) 
+        if (Input.GetKeyDown("f") && Time.time > nextfire) 
         {
             bulletPosition = transform.position;
             nextfire = Time.time + firerate;
