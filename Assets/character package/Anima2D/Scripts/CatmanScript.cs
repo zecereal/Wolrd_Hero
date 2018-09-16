@@ -13,9 +13,14 @@ public class CatmanScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		
+		
 		if(Input.GetKeyDown("a")){
 			Flip();
 		}
+		
+		
+		
 	}
 
 	void Flip(){
