@@ -5,24 +5,36 @@ using UnityEngine;
 public class BulletController : MonoBehaviour {
     public float velX;
     public float velY;
+    public int damage;
+    public LayerMask solid;
     private Rigidbody2D rb;
-    private float timer;
+    public float timer;
+    private float distance;
+
     // Use this for initialization
     void Start () {
         rb = gameObject.GetComponent<Rigidbody2D> ();
-
+        Invoke("autoDestroy",timer);
     }
 
-    private void OnTriggerEnter2D (Collider2D collision) {
-        Destroy (gameObject, 0f);
+    void checkColliosion () {
+        RaycastHit2D hitinfo = Physics2D.Raycast (transform.position, transform.up, distance, solid);
+        if (hitinfo.collider != null) {
+            if (hitinfo.collider.CompareTag ("Enemy")) {
+                Debug.Log ("hit");
+                hitinfo.collider.GetComponent<enemyController> ().takeDamage (damage);
+                Destroy (gameObject);
+            }
+
+        }
     }
 
+    void autoDestroy () {
+        Destroy(gameObject);
+    }
     // Update is called once per frame
     void Update () {
         rb.velocity = new Vector2 (velX, velY);
-        timer += 1.0F * Time.deltaTime;
-        if (timer >= 1) {
-            GameObject.Destroy (gameObject);
-        }
+        checkColliosion ();
     }
 }

@@ -69,7 +69,7 @@ CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1355216891599586}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -89,8 +89,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9a58bcffb6f5d48baef6700dd0af9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velX: -20
+  velX: -50
   velY: 0
+  damage: 1
+  solid:
+    serializedVersion: 2
+    m_Bits: 1536
+  timer: 1
 --- !u!212 &212338642100695294
 SpriteRenderer:
   m_ObjectHideFlags: 1
