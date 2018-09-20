@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212299881096234284}
   - component: {fileID: 114635281900414702}
   - component: {fileID: 50994161419490130}
+  - component: {fileID: 58216057918161712}
   m_Layer: 0
   m_Name: bullet_Right
   m_TagString: Untagged
@@ -62,6 +63,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &58216057918161712
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1567289501525646}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.2
 --- !u!114 &114635281900414702
 MonoBehaviour:
   m_ObjectHideFlags: 1
