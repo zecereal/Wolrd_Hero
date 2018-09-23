@@ -4,33 +4,56 @@ using UnityEngine;
 
 public class animationController : MonoBehaviour {
     public  string animationState;
+    public movementController player;
     public Animator animator;
     void Start () {
-        animationState = this.GetComponent<movementController> ().animationState;
+
+        player = this.GetComponentInParent<movementController>();
         animator = this.GetComponent<Animator> ();
+        
     }
 
-    private void changeAnimation () {
+    public void changeAnimation (string animationState) {
+        setAllParametersFalse();
         switch (animationState) {
-            default : animator.SetTrigger (animationState);
-            break;
+            case "Idle":
+                animator.SetBool("isIdle",true);
+                break;
             case "Walk":
-                    animator.SetBool ("IsWalkButtonActive", true);
+                animator.SetBool ("isWalkButtonActive", true);
                 break;
             case "Dash":
-                    break;
+                break;
             case "Jump":
-                    break;
+                break;
             case "Attack":
-                    break;
+                Attack();
+                break;
             case "RapidfireSkill":
-                    break;
+                break;
             case "Knockback":
-                    break;
+                break;
 
         }
+
     }
-    void Update () {
-        changeAnimation();
+
+    void Attack(){
+        //animator.SetBool ("isAttackButtonActive", true);
+        animator.Play("Attack");
+        Debug.Log("Attack is work");
     }
+    
+    void setAllParametersFalse () {
+        animator.SetBool ("isIdle", false);
+        animator.SetBool ("isHurt", false);
+        animator.SetBool ("isHpLessThanZero", false);
+        animator.SetBool ("isAttackButtonActive", false);
+        animator.SetBool ("isWalkButtonActive", false);
+        animator.SetBool ("isDashButtonActive", false);
+        animator.SetBool ("isJumpButtonActive", false);
+        animator.SetBool ("isSkillButtonActive", false);
+        animator.SetBool ("isChangeHeroButtonActive", false);
+    }
+
 }

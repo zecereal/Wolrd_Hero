@@ -56,7 +56,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: isHpIsLessThanZero
+  - m_Name: isHpLessThanZero
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -158,7 +158,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isHpIsLessThanZero
+    m_ConditionEvent: isHpLessThanZero
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102386731010090342}
@@ -892,8 +892,8 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Catman-NormalAttack
-  m_Speed: 1
+  m_Name: Attack
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1101159583333370808}
@@ -1224,7 +1224,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102632179796076978}
-    m_Position: {x: -324, y: 144, z: 0}
+    m_Position: {x: -300, y: 108, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102594994563207266}
     m_Position: {x: 276, y: 240, z: 0}
@@ -1236,7 +1236,7 @@ AnimatorStateMachine:
     m_Position: {x: -564, y: 252, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102158157171184314}
-    m_Position: {x: -324, y: 252, z: 0}
+    m_Position: {x: -204, y: 312, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102512872153266844}
     m_Position: {x: -72, y: 252, z: 0}

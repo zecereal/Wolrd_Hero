@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class movementController : MonoBehaviour {
-	public GameObject player;
+	public animationController anim;
+
 	public LayerMask playerMask;
 	public float speed = 10, jumpVelocity = 100f, dashVelocity = 100f, checkRadius = 0.3f;
 	Transform myTrans, tagGround;
@@ -13,6 +14,8 @@ public class movementController : MonoBehaviour {
 
 	public string animationState;
 	private Vector2 bulletPosition;
+
+	private Transform gun_effect;
 	private float firerate = 0.3f;
 	private float nextfire = 0.0f;
 	public GameObject bullet_Right;
@@ -27,6 +30,12 @@ public class movementController : MonoBehaviour {
 	private DashController dashButton;
 	private AttackController attackButton;
 
+	public float currentHp;
+	public float maxHp;
+	public int attack_power;
+
+	public healthBar health;
+
 	void Start () {
 		myBody = this.GetComponent<Rigidbody2D> ();
 		myTrans = this.transform;
@@ -36,25 +45,28 @@ public class movementController : MonoBehaviour {
 		dashButton = FindObjectOfType<DashController> ();
 		attackButton = FindObjectOfType<AttackController> ();
 
+		anim = GameObject.Find ("Catman").GetComponent<animationController> ();
+
 		tagGround = GameObject.Find (this.name + "/tag_ground").transform;
+		gun_effect = GameObject.Find (this.name + "/Catman/GunFireEffect").transform;
 		
 	}
 
+	public float getFirerate () {
+		return this.firerate;
+	}
 	void attack () {
 		if ((attackButton.Pressed || Input.GetKeyDown ("f")) && Time.time > nextfire)
 		//if (Input.GetKeyDown("f") && Time.time > nextfire) 
 		{
-			bulletPosition = transform.position;
+			bulletPosition = gun_effect.position;
 			nextfire = Time.time + firerate;
 			if (isRight) {
-				bulletPosition.x = transform.position.x + 1;
 				Instantiate (bullet_Right, bulletPosition, Quaternion.identity);
-
 			} else {
-				bulletPosition.x = transform.position.x - 1;
 				Instantiate (bullet_Left, bulletPosition, Quaternion.identity);
-
 			}
+			anim.changeAnimation ("Attack");
 		}
 	}
 	public void Move (float horizonalInput) {
@@ -66,7 +78,7 @@ public class movementController : MonoBehaviour {
 		Vector2 moveVel = myBody.velocity;
 		moveVel.x = horizonalInput * speed;
 		myBody.velocity = moveVel;
-		
+
 	}
 
 	void movement () {
@@ -79,7 +91,8 @@ public class movementController : MonoBehaviour {
 			Move (1);
 		} else {
 			Move (0);
-			
+			anim.changeAnimation ("Idle");
+
 		}
 	}
 	void Flip () {
@@ -97,7 +110,12 @@ public class movementController : MonoBehaviour {
 			}
 		}
 	}
-	
+
+	void hurt (int damage) {
+		currentHp -= damage;
+		float hp_size = currentHp / maxHp;
+		//healthBar.setSize (hp_size);
+	}
 	void dash () {
 		if ((dashButton.Pressed || Input.GetKeyDown ("r")) && Time.time > nextdash) {
 			//if (Input.GetKeyDown ("space") && Time.time > nextdash) {
@@ -122,6 +140,12 @@ public class movementController : MonoBehaviour {
 		dashButton.Pressed = false;
 	}
 
+	private void OnCollisionEnter2D(Collision2D other) {
+		if(other.collider.CompareTag("Enemy")||other.collider.CompareTag("Weapon")){
+			int damage = other.gameObject.GetComponent<enemyController>().getAttackPower();
+			hurt(damage);
+		}
+	}
 	void Update () {
 		//isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
 		isGrounded = Physics2D.OverlapCircle (tagGround.position, checkRadius, playerMask);
@@ -129,6 +153,7 @@ public class movementController : MonoBehaviour {
 		movement ();
 		jump ();
 		dash ();
+		
 
 	}
 }
