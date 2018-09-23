@@ -50,12 +50,12 @@ public class enemyController : MonoBehaviour {
     }
 
     void chaseTarget () {
-        bool chaseAble = Vector2.Distance (transform.position, target.position) > stopDistance;
-        if (chaseAble && isAttacking) {
-            attack ();
-        } else if (chaseAble && !isAttacking) {
+
+        if (Vector2.Distance (transform.position, target.position) > stopDistance && !isAttacking) {
             walk ();
             transform.position = Vector2.MoveTowards (transform.position, target.position, speed * Time.deltaTime);
+        } else {
+            attack ();
         }
     }
 
@@ -67,11 +67,16 @@ public class enemyController : MonoBehaviour {
     }
 
     void attack () {
-        if (isAttacking && Time.time > next_attack) {
-            next_attack = Time.time + next_attack;
-            enemy_animator.SetBool ("isAttack", true);
-            enemy_animator.SetBool ("isWalk", false);
-        }
+        isAttacking = true;
+        next_attack = Time.time + next_attack;
+        enemy_animator.SetBool ("isAttack", true);
+        enemy_animator.SetBool ("isWalk", false);
+        StartCoroutine (resetAttack (1f));
+    }
+
+    IEnumerator resetAttack (float waitTime) {
+        yield return new WaitForSeconds (waitTime);
+        isAttacking = false;
     }
     void Update () {
         die ();
