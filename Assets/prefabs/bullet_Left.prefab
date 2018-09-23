@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9a58bcffb6f5d48baef6700dd0af9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velX: -50
+  velX: -40
   velY: 0
   damage: 1
   solid:

@@ -5,13 +5,13 @@ using UnityEngine;
 public class movementController : MonoBehaviour {
 	public GameObject player;
 	public LayerMask playerMask;
-
-	public float speed = 10, jumpVelocity = 100f , dashVelocity = 100f,  checkRadius = 0.3f;
+	public float speed = 10, jumpVelocity = 100f, dashVelocity = 100f, checkRadius = 0.3f;
 	Transform myTrans, tagGround;
 	Rigidbody2D myBody;
 	public bool isGrounded = false;
 	public bool isRight = true;
 
+	public string animationState;
 	private Vector2 bulletPosition;
 	private float firerate = 0.3f;
 	private float nextfire = 0.0f;
@@ -34,14 +34,14 @@ public class movementController : MonoBehaviour {
 		rightButton = FindObjectOfType<RightButton> ();
 		jumpButton = FindObjectOfType<jumpButtonController> ();
 		dashButton = FindObjectOfType<DashController> ();
-		attackButton= FindObjectOfType<AttackController>();
-		
-		tagGround = GameObject.Find(this.name + "/tag_ground").transform;
+		attackButton = FindObjectOfType<AttackController> ();
 
+		tagGround = GameObject.Find (this.name + "/tag_ground").transform;
+		
 	}
 
 	void attack () {
-		if ((attackButton.Pressed||Input.GetKeyDown("f")) && Time.time > nextfire)
+		if ((attackButton.Pressed || Input.GetKeyDown ("f")) && Time.time > nextfire)
 		//if (Input.GetKeyDown("f") && Time.time > nextfire) 
 		{
 			bulletPosition = transform.position;
@@ -66,21 +66,23 @@ public class movementController : MonoBehaviour {
 		Vector2 moveVel = myBody.velocity;
 		moveVel.x = horizonalInput * speed;
 		myBody.velocity = moveVel;
+		
 	}
 
 	void movement () {
-		
+
 		if (leftButton.Pressed) {
-			if(isRight) Flip();
+			if (isRight) Flip ();
 			Move (-1);
 		} else if (rightButton.Pressed) {
-			if(!isRight) Flip();
+			if (!isRight) Flip ();
 			Move (1);
 		} else {
 			Move (0);
+			
 		}
 	}
-	void Flip(){
+	void Flip () {
 		isRight = !isRight;
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
@@ -89,13 +91,13 @@ public class movementController : MonoBehaviour {
 
 	public void jump () {
 		if (jumpButton.Pressed || Input.GetKeyDown ("space")) {
-			
+
 			if (isGrounded) {
 				myBody.velocity += jumpVelocity * Vector2.up;
 			}
 		}
 	}
-
+	
 	void dash () {
 		if ((dashButton.Pressed || Input.GetKeyDown ("r")) && Time.time > nextdash) {
 			//if (Input.GetKeyDown ("space") && Time.time > nextdash) {
