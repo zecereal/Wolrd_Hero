@@ -18,6 +18,8 @@ public class movementController : MonoBehaviour {
 	private Transform gun_effect;
 	private float firerate = 0.3f;
 	private float nextfire = 0.0f;
+
+	private float knockback_time = 0.3f;
 	public GameObject bullet_Right;
 	public GameObject bullet_Left;
 
@@ -49,7 +51,8 @@ public class movementController : MonoBehaviour {
 
 		tagGround = GameObject.Find (this.name + "/tag_ground").transform;
 		gun_effect = GameObject.Find (this.name + "/Catman/GunFireEffect").transform;
-		
+
+		currentHp = maxHp;
 	}
 
 	public float getFirerate () {
@@ -66,8 +69,13 @@ public class movementController : MonoBehaviour {
 			} else {
 				Instantiate (bullet_Left, bulletPosition, Quaternion.identity);
 			}
-			anim.changeAnimation ("Attack");
+			anim.animator.SetBool ("isAttackButtonActive", true);
+			StartCoroutine (resetAttack (firerate));
 		}
+	}
+	IEnumerator resetAttack (float waitTime) {
+		yield return new WaitForSeconds (waitTime);
+		anim.animator.SetBool ("isAttackButtonActive", false);
 	}
 	public void Move (float horizonalInput) {
 		if (horizonalInput > 0) {
@@ -91,7 +99,7 @@ public class movementController : MonoBehaviour {
 			Move (1);
 		} else {
 			Move (0);
-			anim.changeAnimation ("Idle");
+			//anim.changeAnimation ("Idle");
 
 		}
 	}
@@ -115,7 +123,24 @@ public class movementController : MonoBehaviour {
 		currentHp -= damage;
 		float hp_size = currentHp / maxHp;
 		//healthBar.setSize (hp_size);
+		anim.animator.SetBool ("isHurt", true);
+		StartCoroutine (Knockback (knockback_time));
+		/* 
+		if (isRight) {
+				//transform.Translate (5, 0, 0);
+				myBody.AddForce (Vector2.left * (dashVelocity/2));
+			} else {
+				myBody.AddForce (Vector2.right * (dashVelocity/2));
+			}
+		*/
+		StartCoroutine (resetVelocity (5.0f));
 	}
+
+	IEnumerator Knockback (float waitTime) {
+		yield return new WaitForSeconds (waitTime);
+		anim.animator.SetBool ("isHurt", false);
+	}
+
 	void dash () {
 		if ((dashButton.Pressed || Input.GetKeyDown ("r")) && Time.time > nextdash) {
 			//if (Input.GetKeyDown ("space") && Time.time > nextdash) {
@@ -140,10 +165,10 @@ public class movementController : MonoBehaviour {
 		dashButton.Pressed = false;
 	}
 
-	private void OnCollisionEnter2D(Collision2D other) {
-		if(other.collider.CompareTag("Enemy")||other.collider.CompareTag("Weapon")){
-			int damage = other.gameObject.GetComponent<enemyController>().getAttackPower();
-			hurt(damage);
+	private void OnCollisionEnter2D (Collision2D other) {
+		if (other.collider.CompareTag ("Enemy") || other.collider.CompareTag ("Weapon")) {
+			int damage = other.gameObject.GetComponent<enemyController> ().getAttackPower ();
+			hurt (damage);
 		}
 	}
 	void Update () {
@@ -153,7 +178,6 @@ public class movementController : MonoBehaviour {
 		movement ();
 		jump ();
 		dash ();
-		
 
 	}
 }

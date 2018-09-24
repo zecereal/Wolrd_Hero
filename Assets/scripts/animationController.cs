@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,10 +33,16 @@ public class animationController : MonoBehaviour {
             case "RapidfireSkill":
                 break;
             case "Knockback":
+                Knockback();
                 break;
 
         }
 
+    }
+
+    void Knockback()
+    {
+        animator.Play("Knockback");
     }
 
     void Attack(){

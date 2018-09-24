@@ -3954,8 +3954,8 @@ MonoBehaviour:
   stopDistance: 2
   currentHp: 10
   maxHp: 10
-  attack_power: 0
-  attack_rate: 0
+  attack_power: 1
+  attack_rate: 0.5
   next_attack: 0
   anim: {fileID: 1900716421}
   healthBar: {fileID: 122889524}
@@ -4361,7 +4361,7 @@ MonoBehaviour:
   bullet_Left: {fileID: 1355216891599586, guid: 3ec6f5442d4e5d940afeab1d1f55fde3,
     type: 2}
   currentHp: 0
-  maxHp: 0
+  maxHp: 10
   attack_power: 0
   health: {fileID: 0}
 --- !u!61 &1651065360
@@ -5050,7 +5050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 1467636194}
-  enemy_animator: {fileID: 0}
+  enemy_animator: {fileID: 1900716422}
 --- !u!95 &1900716422
 Animator:
   serializedVersion: 3

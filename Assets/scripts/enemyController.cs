@@ -20,6 +20,7 @@ public class enemyController : MonoBehaviour {
     private bool isWalking;
     private bool isAttacking;
 
+    public Collider2D collider;
     void Start () {
         target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Transform> ();
         currentHp = maxHp;
@@ -71,12 +72,13 @@ public class enemyController : MonoBehaviour {
         next_attack = Time.time + next_attack;
         enemy_animator.SetBool ("isAttack", true);
         enemy_animator.SetBool ("isWalk", false);
-        StartCoroutine (resetAttack (1f));
+        StartCoroutine (resetAttack (attack_rate));
     }
 
     IEnumerator resetAttack (float waitTime) {
         yield return new WaitForSeconds (waitTime);
         isAttacking = false;
+        enemy_animator.SetBool ("isAttack", false);
     }
     void Update () {
         die ();
