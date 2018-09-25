@@ -12,6 +12,11 @@ public class movementController : MonoBehaviour {
 	public bool isGrounded = false;
 	public bool isRight = true;
 
+	public bool isWalk = false;
+	public bool isJump = false;
+	public bool isAttacking = false;
+	public bool isUseSkill = false;
+
 	public string animationState;
 	private Vector2 bulletPosition;
 
@@ -26,11 +31,16 @@ public class movementController : MonoBehaviour {
 	private float dashrate = 2f;
 	private float nextdash = 0.0f;
 
+	private float skillCooldown = 5f;
+	private float nextskill = 0.0f;
+	private int bulletStack;
 	private LeftButton leftButton;
 	private RightButton rightButton;
 	private jumpButtonController jumpButton;
 	private DashController dashButton;
 	private AttackController attackButton;
+
+	private SkillButtonController skillButton;
 
 	public float currentHp;
 	public float maxHp;
@@ -46,6 +56,7 @@ public class movementController : MonoBehaviour {
 		jumpButton = FindObjectOfType<jumpButtonController> ();
 		dashButton = FindObjectOfType<DashController> ();
 		attackButton = FindObjectOfType<AttackController> ();
+		skillButton = FindObjectOfType<SkillButtonController> ();
 
 		anim = GameObject.Find ("Catman").GetComponent<animationController> ();
 
@@ -59,9 +70,7 @@ public class movementController : MonoBehaviour {
 		return this.firerate;
 	}
 	void attack () {
-		if ((attackButton.Pressed || Input.GetKeyDown ("f")) && Time.time > nextfire)
-		//if (Input.GetKeyDown("f") && Time.time > nextfire) 
-		{
+		if ((attackButton.Pressed || Input.GetKeyDown ("f")) && Time.time > nextfire) {
 			bulletPosition = gun_effect.position;
 			nextfire = Time.time + firerate;
 			if (isRight) {
@@ -73,16 +82,60 @@ public class movementController : MonoBehaviour {
 			StartCoroutine (resetAttack (firerate));
 		}
 	}
+
 	IEnumerator resetAttack (float waitTime) {
 		yield return new WaitForSeconds (waitTime);
 		anim.animator.SetBool ("isAttackButtonActive", false);
 	}
+
+	void skill () {
+		if (skillButton.Pressed || Input.GetKeyDown ("q") && Time.time > nextskill) {
+			bulletPosition = gun_effect.position;
+			nextskill = Time.time + skillCooldown;
+			bulletStack = 5;
+			anim.animator.SetBool ("isSkillButtonActive", true);
+			StartCoroutine (setSkillSequence (0.2f, 0.1f));
+			StartCoroutine (resetSkill (skillCooldown));
+		}
+	}
+	IEnumerator nextBullet (float waitTime) {
+		yield return new WaitForSeconds (waitTime);
+		if (bulletStack > 0) {
+			if (isRight) {
+				Instantiate (bullet_Right, bulletPosition, Quaternion.identity);
+			} else {
+				Instantiate (bullet_Left, bulletPosition, Quaternion.identity);
+			}
+			bulletStack--;
+			StartCoroutine (nextBullet (waitTime));
+		} else {
+			anim.animator.SetBool ("isSkillButtonActive", false);
+		}
+	}
+	IEnumerator resetSkill (float waitTime) {
+		yield return new WaitForSeconds (waitTime);
+		skillButton.Pressed = false;
+	}
+
+	IEnumerator setSkillSequence (float delay, float nextBulletTime) {
+		yield return new WaitForSeconds (delay);
+		StartCoroutine (nextBullet (nextBulletTime));
+	}
 	public void Move (float horizonalInput) {
+		if (!isGrounded) {
+			anim.animator.SetBool ("isWalkButtonActive", false);
+		} else {
+			anim.animator.SetBool ("isWalkButtonActive", true);
+		}
+
 		if (horizonalInput > 0) {
 			isRight = true;
 		} else if (horizonalInput < 0) {
 			isRight = false;
+		} else {
+			anim.animator.SetBool ("isWalkButtonActive", false);
 		}
+
 		Vector2 moveVel = myBody.velocity;
 		moveVel.x = horizonalInput * speed;
 		myBody.velocity = moveVel;
@@ -90,17 +143,16 @@ public class movementController : MonoBehaviour {
 	}
 
 	void movement () {
-
 		if (leftButton.Pressed) {
+
 			if (isRight) Flip ();
 			Move (-1);
 		} else if (rightButton.Pressed) {
+			anim.animator.SetBool ("isWalkButtonActive", true);
 			if (!isRight) Flip ();
 			Move (1);
 		} else {
 			Move (0);
-			//anim.changeAnimation ("Idle");
-
 		}
 	}
 	void Flip () {
@@ -111,12 +163,20 @@ public class movementController : MonoBehaviour {
 	}
 
 	public void jump () {
-		if (jumpButton.Pressed || Input.GetKeyDown ("space")) {
+		isGrounded = Physics2D.OverlapCircle (tagGround.position, checkRadius, playerMask);
 
-			if (isGrounded) {
+		if (isGrounded) {
+			isJump = false;
+			anim.animator.SetBool ("isJumpButtonActive", false);
+			if (jumpButton.Pressed || Input.GetKeyDown ("space")) {
+				isJump = true;
+				anim.animator.SetBool ("isJumpButtonActive", true);
 				myBody.velocity += jumpVelocity * Vector2.up;
 			}
+		} else {
+			if (isWalk) isWalk = false;
 		}
+
 	}
 
 	void hurt (int damage) {
@@ -165,19 +225,21 @@ public class movementController : MonoBehaviour {
 		dashButton.Pressed = false;
 	}
 
+	void Update () {
+		//isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
+
+		attack ();
+		movement ();
+		jump ();
+		dash ();
+		skill ();
+	}
+
 	private void OnCollisionEnter2D (Collision2D other) {
 		if (other.collider.CompareTag ("Enemy") || other.collider.CompareTag ("Weapon")) {
 			int damage = other.gameObject.GetComponent<enemyController> ().getAttackPower ();
 			hurt (damage);
 		}
 	}
-	void Update () {
-		//isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
-		isGrounded = Physics2D.OverlapCircle (tagGround.position, checkRadius, playerMask);
-		attack ();
-		movement ();
-		jump ();
-		dash ();
 
-	}
 }
