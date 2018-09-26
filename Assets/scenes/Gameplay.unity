@@ -2480,7 +2480,7 @@ MonoBehaviour:
   offset: {x: 0, y: 2, z: -10}
   smoothSpeed: 0.125
   maxHeight: 11
-  minHeight: 0
+  minHeight: -1
 --- !u!1 &743290218
 GameObject:
   m_ObjectHideFlags: 0

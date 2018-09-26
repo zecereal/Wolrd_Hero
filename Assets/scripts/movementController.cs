@@ -31,6 +31,7 @@ public class movementController : MonoBehaviour {
 	private float dashrate = 2f;
 	private float nextdash = 0.0f;
 
+	private float dashCooldown = 5f;
 	private float skillCooldown = 5f;
 	private float nextskill = 0.0f;
 	private int bulletStack;
@@ -100,6 +101,7 @@ public class movementController : MonoBehaviour {
 	}
 	IEnumerator nextBullet (float waitTime) {
 		yield return new WaitForSeconds (waitTime);
+		bulletPosition = gun_effect.position;
 		if (bulletStack > 0) {
 			if (isRight) {
 				Instantiate (bullet_Right, bulletPosition, Quaternion.identity);
@@ -203,23 +205,24 @@ public class movementController : MonoBehaviour {
 
 	void dash () {
 		if ((dashButton.Pressed || Input.GetKeyDown ("r")) && Time.time > nextdash) {
-			//if (Input.GetKeyDown ("space") && Time.time > nextdash) {
-
 			nextdash = Time.time + dashrate;
 
 			if (isRight) {
-				//transform.Translate (5, 0, 0);
 				myBody.AddForce (Vector2.right * dashVelocity);
 			} else {
 				myBody.AddForce (Vector2.left * dashVelocity);
 			}
-
-			StartCoroutine (resetVelocity (5.0f));
+			anim.animator.SetBool ("isDashButtonActive", true);
+			StartCoroutine (resetDashAnimation (0.5f));
+			StartCoroutine (resetVelocity (dashCooldown));
 		}
 	}
 
+	IEnumerator resetDashAnimation (float waitTime) {
+		yield return new WaitForSeconds (waitTime);
+		anim.animator.SetBool ("isDashButtonActive", false);
+	}
 	private IEnumerator resetVelocity (float waitTime) {
-		Debug.Log ("reset velocity");
 		yield return new WaitForSeconds (waitTime);
 		myBody.velocity = new Vector3 (0, 0, 0);
 		dashButton.Pressed = false;
