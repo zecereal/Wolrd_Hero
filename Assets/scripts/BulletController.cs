@@ -24,7 +24,12 @@ public class BulletController : MonoBehaviour {
                 Debug.Log ("hit");
                 hitinfo.collider.GetComponent<enemyController> ().takeDamage (damage);
                 Destroy (gameObject);
+            }else if (hitinfo.collider.CompareTag ("Boss")) {
+                Debug.Log ("hit");
+                hitinfo.collider.GetComponent<bossController> ().takeDamage (damage);
+                Destroy (gameObject);
             }
+
 
         }
     }

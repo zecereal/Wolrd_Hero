@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class bossController : MonoBehaviour {
     public float speed;
     public float stopDistance;
     public float currentHp;
     public float maxHp;
+
+    public Slider boss_hp;
     public int attack_power;
 
     public float attack_rate;
@@ -40,7 +42,7 @@ public class bossController : MonoBehaviour {
         currentHp -= damage;
         if(currentHp<=0) currentHp=0;
         float hp_size = currentHp / maxHp;
-        healthBar.setSize (hp_size);
+        boss_hp.value = hp_size;
     }
 
     void die () {
@@ -102,6 +104,5 @@ public class bossController : MonoBehaviour {
     void Update () {
         die ();
         chaseTarget ();
-
     }
 }
