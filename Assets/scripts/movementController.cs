@@ -239,10 +239,17 @@ public class movementController : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter2D (Collision2D other) {
-		if (other.collider.CompareTag ("Enemy") || other.collider.CompareTag ("Weapon")) {
+
+		if (other.collider.CompareTag ("Enemy")) {
 			int damage = other.gameObject.GetComponent<enemyController> ().getAttackPower ();
 			hurt (damage);
+		}else
+
+		if (other.collider.CompareTag ("Boss")) {
+			int bossDamage = other.gameObject.GetComponent<bossController> ().getAttackPower ();
+			hurt (bossDamage);
 		}
+
 	}
 
 }

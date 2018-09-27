@@ -38,6 +38,7 @@ public class enemyController : MonoBehaviour {
     }
     public void takeDamage (int damage) {
         currentHp -= damage;
+        if(currentHp<=0) currentHp=0;
         float hp_size = currentHp / maxHp;
         healthBar.setSize (hp_size);
     }
