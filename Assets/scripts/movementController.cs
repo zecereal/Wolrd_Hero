@@ -236,14 +236,26 @@ public class movementController : MonoBehaviour {
 		dashButton.Pressed = false;
 	}
 
+	void dead () {
+		if (currentHp <= 0) {
+			anim.animator.SetBool ("isHpLessThanZero", true);
+			StartCoroutine (destroyHero (1.2f));
+		}
+	}
+
+	IEnumerator destroyHero (float waitTime) {
+
+		yield return new WaitForSeconds (waitTime);
+		Destroy(gameObject);
+	}
 	void Update () {
 		//isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
-
 		attack ();
 		movement ();
 		jump ();
 		dash ();
 		skill ();
+		dead ();
 	}
 
 	private void OnCollisionEnter2D (Collision2D other) {
@@ -251,7 +263,7 @@ public class movementController : MonoBehaviour {
 		if (other.collider.CompareTag ("Enemy")) {
 			int damage = other.gameObject.GetComponent<enemyController> ().getAttackPower ();
 			hurt (damage);
-		}else
+		} else
 
 		if (other.collider.CompareTag ("Boss")) {
 			int bossDamage = other.gameObject.GetComponent<bossController> ().getAttackPower ();
