@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class movementController : MonoBehaviour {
 	public animationController anim;
@@ -45,6 +46,12 @@ public class movementController : MonoBehaviour {
 
 	public float currentHp;
 	public float maxHp;
+
+	public float mana;
+	public float maxMana;
+
+	public Slider hp_bar;
+	public Slider mana_bar;
 	public int attack_power;
 
 	public healthBar health;
@@ -184,6 +191,7 @@ public class movementController : MonoBehaviour {
 	void hurt (int damage) {
 		currentHp -= damage;
 		float hp_size = currentHp / maxHp;
+		hp_bar.value = hp_size;
 		//healthBar.setSize (hp_size);
 		anim.animator.SetBool ("isHurt", true);
 		StartCoroutine (Knockback (knockback_time));
