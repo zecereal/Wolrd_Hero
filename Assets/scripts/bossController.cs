@@ -104,5 +104,6 @@ public class bossController : MonoBehaviour {
     void Update () {
         die ();
         chaseTarget ();
+        Physics2D.IgnoreLayerCollision (9, 12);
     }
 }

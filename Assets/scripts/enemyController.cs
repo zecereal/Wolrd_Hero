@@ -25,7 +25,7 @@ public class enemyController : MonoBehaviour {
     public Collider2D collider;
     void Start () {
         target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Transform> ();
-        enemy_sprite = GameObject.Find ("Carpenter").GetComponent<Transform> ();
+        enemy_sprite = GameObject.Find ("/"+this.name+"/Carpenter").GetComponent<Transform> ();
         currentHp = maxHp;
         isWalking = false;
         isAttacking = false;
@@ -38,7 +38,7 @@ public class enemyController : MonoBehaviour {
     }
     public void takeDamage (int damage) {
         currentHp -= damage;
-        if(currentHp<=0) currentHp=0;
+        if (currentHp <= 0) currentHp = 0;
         float hp_size = currentHp / maxHp;
         healthBar.setSize (hp_size);
     }
@@ -72,10 +72,10 @@ public class enemyController : MonoBehaviour {
             enemy_animator.SetBool ("isAttack", false);
         }
 
-        if (transform.position.x < target.position.x) {
-            if (!isRight) Flip ();
-        } else if (transform.position.x > target.position.x) {
-            if (isRight) Flip ();
+        if (this.transform.position.x < target.position.x && !isRight) {
+            Flip ();
+        } else if (this.transform.position.x > target.position.x && isRight) {
+            Flip ();
         }
     }
 
@@ -102,5 +102,6 @@ public class enemyController : MonoBehaviour {
         die ();
         chaseTarget ();
 
+        Physics2D.IgnoreLayerCollision (9, 12);
     }
 }

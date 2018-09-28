@@ -246,7 +246,7 @@ public class movementController : MonoBehaviour {
 	IEnumerator destroyHero (float waitTime) {
 
 		yield return new WaitForSeconds (waitTime);
-		Destroy(gameObject);
+		Destroy (gameObject);
 	}
 	void Update () {
 		//isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
@@ -256,6 +256,8 @@ public class movementController : MonoBehaviour {
 		dash ();
 		skill ();
 		dead ();
+
+		Physics2D.IgnoreLayerCollision (9, 12);
 	}
 
 	private void OnCollisionEnter2D (Collision2D other) {
@@ -263,9 +265,7 @@ public class movementController : MonoBehaviour {
 		if (other.collider.CompareTag ("Enemy")) {
 			int damage = other.gameObject.GetComponent<enemyController> ().getAttackPower ();
 			hurt (damage);
-		} else
-
-		if (other.collider.CompareTag ("Boss")) {
+		} else if (other.collider.CompareTag ("Boss")) {
 			int bossDamage = other.gameObject.GetComponent<bossController> ().getAttackPower ();
 			hurt (bossDamage);
 		}
