@@ -8,6 +8,9 @@ TagManager:
   - Environment
   - Weapon
   - Boss
+  - box
+  - first_aid
+  - item
   layers:
   - Default
   - TransparentFX

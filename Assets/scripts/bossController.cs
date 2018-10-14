@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class bossController : MonoBehaviour {
+public class BossController : MonoBehaviour {
     public float speed;
     public float stopDistance;
     public float currentHp;
@@ -14,11 +14,10 @@ public class bossController : MonoBehaviour {
 
     public float attack_rate;
     public float next_attack;
-    public bossAnimationController anim;
+    public BossAnimationController anim;
     private Animator boss_animator;
     private Transform target;
     private Transform boss_sprite;
-    public healthBar healthBar;
 
     private bool isWalking;
     private bool isAttacking;

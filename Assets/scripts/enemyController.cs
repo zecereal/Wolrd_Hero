@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemyController : MonoBehaviour {
+public class EnemyController : MonoBehaviour {
     public float speed;
     public float stopDistance;
     public float currentHp;
@@ -12,7 +12,7 @@ public class enemyController : MonoBehaviour {
 
     public float attack_rate;
     public float next_attack;
-    public enemyAnimationController anim;
+    public EnemyAnimationController anim;
     private Animator enemy_animator;
     private Transform target;
     private Transform enemy_sprite;
