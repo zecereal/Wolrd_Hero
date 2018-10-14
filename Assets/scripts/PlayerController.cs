@@ -178,22 +178,17 @@ public class PlayerController : MonoBehaviour {
 
 	void hurt (int damage) {
 		currentHp -= damage;
-		float hp_size = currentHp / maxHp;
-		hp_bar.value = hp_size;
+		setHPBarSize();
 		//healthBar.setSize (hp_size);
 		anim.animator.SetBool ("isHurt", true);
 		StartCoroutine (Knockback (knockback_time));
-		/* 
-		if (isRight) {
-				//transform.Translate (5, 0, 0);
-				myBody.AddForce (Vector2.left * (dashVelocity/2));
-			} else {
-				myBody.AddForce (Vector2.right * (dashVelocity/2));
-			}
-		*/
 		StartCoroutine (resetVelocity (5.0f));
 	}
 
+	void setHPBarSize(){
+		float hp_size = currentHp / maxHp;
+		hp_bar.value = hp_size;
+	}
 	IEnumerator Knockback (float waitTime) {
 		yield return new WaitForSeconds (waitTime);
 		anim.animator.SetBool ("isHurt", false);
@@ -237,10 +232,12 @@ public class PlayerController : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
-	void regenerateHP (int percent) {
-		float regen = (percent / 100) * maxHp;
+	void regenerateHP (float percent) {
+		
+		float regen = (percent / 100f) * maxHp;
 		currentHp += regen;
 		if (currentHp >= maxHp) currentHp = maxHp;
+		setHPBarSize();
 
 	}
 	void Update () {
@@ -264,8 +261,9 @@ public class PlayerController : MonoBehaviour {
 			int bossDamage = other.gameObject.GetComponent<BossController> ().getAttackPower ();
 			hurt (bossDamage);
 		} else if (other.collider.CompareTag ("first_aid")) {
-			Debug.Log ("hit first aid box");
-			regenerateHP (20);
+			
+			regenerateHP (20f);
+			Destroy(other.collider.gameObject);
 		}
 
 	}
