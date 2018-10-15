@@ -11,7 +11,7 @@ public class CreteController : MonoBehaviour {
 
     private int randomNum;
     public void dropItem(){
-        randomNum = Random.Range(0,1);
+        randomNum = Random.Range(0,2);
         Debug.Log(randomNum);
         position = transform.position;
         

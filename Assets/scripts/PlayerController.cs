@@ -261,8 +261,9 @@ public class PlayerController : MonoBehaviour {
 			int bossDamage = other.gameObject.GetComponent<BossController> ().getAttackPower ();
 			hurt (bossDamage);
 		} else if (other.collider.CompareTag ("first_aid")) {
-			
 			regenerateHP (20f);
+			Destroy(other.collider.gameObject);
+		} else if (other.collider.CompareTag ("item")) {
 			Destroy(other.collider.gameObject);
 		}
 

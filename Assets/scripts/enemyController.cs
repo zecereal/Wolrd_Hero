@@ -21,11 +21,11 @@ public class EnemyController : MonoBehaviour {
     private bool isWalking;
     private bool isAttacking;
 
-    private bool isRight;
+    public bool isRight;
     public Collider2D collider;
     void Start () {
         target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Transform> ();
-        enemy_sprite = GameObject.Find ("/"+this.name+"/Carpenter").GetComponent<Transform> ();
+        enemy_sprite = GameObject.Find ("/" + this.name + "/Carpenter").GetComponent<Transform> ();
         currentHp = maxHp;
         isWalking = false;
         isAttacking = false;
@@ -72,10 +72,10 @@ public class EnemyController : MonoBehaviour {
             enemy_animator.SetBool ("isAttack", false);
         }
 
-        if (this.transform.position.x < target.position.x && !isRight) {
-            Flip ();
-        } else if (this.transform.position.x > target.position.x && isRight) {
-            Flip ();
+        if (transform.position.x < target.position.x) {
+            if (!isRight) Flip ();
+        } else if (transform.position.x > target.position.x) {
+            if (isRight) Flip ();
         }
     }
 
@@ -85,6 +85,7 @@ public class EnemyController : MonoBehaviour {
         theScale.x *= -1;
         enemy_sprite.localScale = theScale;
     }
+
     void attack () {
         isAttacking = true;
         next_attack = Time.time + next_attack;
