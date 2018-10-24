@@ -18,4 +18,5 @@ public class PauseController : MonoBehaviour {
         pause_panel.SetActive(false);
         isPause = false;
     }
+
 }
