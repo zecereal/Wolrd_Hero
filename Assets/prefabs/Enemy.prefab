@@ -1507,6 +1507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee359c0002a441a2b982d45d12297ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventController: {fileID: 0}
   speed: 1
   stopDistance: 2
   currentHp: 5

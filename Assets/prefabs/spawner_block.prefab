@@ -77,7 +77,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 504b045fab27e48e185baa9c48e7191f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventController: {fileID: 0}
   crete: {fileID: 1575296558613244, guid: 9089a957bd0dd4506ad564f2c383e9a2, type: 2}
   enemy: {fileID: 1051767055269028, guid: 3be71dd99475f41709bbf9b247eaa305, type: 2}
+  boss: {fileID: 0}
+  boss_hp: {fileID: 0}
   enemyQuantity: 3
+  isEnemySpawner: 0
+  isCreteSpawner: 0
   isBossZone: 0

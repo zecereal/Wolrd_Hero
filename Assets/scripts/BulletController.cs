@@ -39,8 +39,9 @@ public class BulletController : MonoBehaviour {
         Destroy(gameObject);
     }
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
         rb.velocity = new Vector2 (velX, velY);
         checkColliosion ();
     }
+
 }

@@ -23,8 +23,8 @@ TagManager:
   - Player
   - Enemy
   - Environment
-  - Weapon
-  - Boss
+  - Blocking_area
+  - 
   - 
   - 
   - 

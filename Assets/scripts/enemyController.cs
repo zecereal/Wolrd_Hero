@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
+    public EventController eventController;
     public float speed;
     public float stopDistance;
     public float currentHp;
@@ -24,6 +25,7 @@ public class EnemyController : MonoBehaviour {
     public bool isRight;
     public Collider2D collider;
     void Start () {
+        eventController = GameObject.Find ("EventSystem").GetComponent<EventController> ();
         target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Transform> ();
         enemy_sprite = GameObject.Find ("/" + this.name + "/Carpenter").GetComponent<Transform> ();
         currentHp = maxHp;
@@ -50,9 +52,9 @@ public class EnemyController : MonoBehaviour {
         }
     }
     IEnumerator DestroyItself (float waitTime) {
-        Debug.Log ("dead");
         yield return new WaitForSeconds (waitTime);
         Destroy (gameObject);
+        eventController.decreseEnemy ();
     }
 
     void chaseTarget () {
@@ -99,10 +101,10 @@ public class EnemyController : MonoBehaviour {
         isAttacking = false;
         enemy_animator.SetBool ("isAttack", false);
     }
-    void Update () {
+    void FixedUpdate () {
         die ();
         chaseTarget ();
-
-        Physics2D.IgnoreLayerCollision (9, 12);
+        Physics2D.IgnoreLayerCollision (9, 9);
+        Physics2D.IgnoreLayerCollision (9, 11);
     }
 }

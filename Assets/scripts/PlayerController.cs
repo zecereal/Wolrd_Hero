@@ -240,7 +240,7 @@ public class PlayerController : MonoBehaviour {
 		setHPBarSize();
 
 	}
-	void Update () {
+	void FixedUpdate () {
 		isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
 		attack ();
 		movement ();
@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour {
 		skill ();
 		dead ();
 
-		Physics2D.IgnoreLayerCollision (9, 12);
+		//Physics2D.IgnoreLayerCollision (8,9);
 	}
 
 	private void OnCollisionEnter2D (Collision2D other) {
