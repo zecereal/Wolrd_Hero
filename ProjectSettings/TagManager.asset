@@ -11,6 +11,7 @@ TagManager:
   - box
   - first_aid
   - item
+  - Blocking_area
   layers:
   - Default
   - TransparentFX

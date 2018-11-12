@@ -5,8 +5,13 @@ using UnityEngine;
 public class EventController : MonoBehaviour {
 
     [SerializeField] public Camera camera;
+    [SerializeField] public GameObject player;
+
+
     public bool isEnemyCleared;
     public int enemyQuantity;
+    private float temp;
+
     void Start () {
         isEnemyCleared = true;
         enemyQuantity = 0;
@@ -27,14 +32,16 @@ public class EventController : MonoBehaviour {
             isEnemyCleared = false;
         }
     }
-    void blockingArea () {
-
+    public void blockingAreaActive () {
+        temp = camera.transform.position.x;
+        camera.transform.position = new Vector2(temp,camera.transform.position.y);
     }
     void blockingCamera () {
 
     }
 
-    void Update () {
+    void FixedUpdate () {
         checkEnemyQuantity ();
     }
+
 }

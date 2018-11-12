@@ -17,6 +17,8 @@ public class SmoothFollow2DCamera : MonoBehaviour
     [Tooltip("Minimum or lowest camera position on the Y-axis.")]
     public float minHeight = -1f;
 
+    public float minWidth;
+    public float maxWidth;
     private bool perspective = false;
 
     // Use this for initialization
@@ -29,7 +31,7 @@ public class SmoothFollow2DCamera : MonoBehaviour
 	}
 
     // LateUpdate is called every frame, if the Behaviour is enabled
-    void LateUpdate()
+    void FixedUpdate()
     {
         Vector2 smoothedPosition = Vector2.Lerp(transform.position, target.position + offset, smoothSpeed);
         smoothedPosition.y = Mathf.Clamp(smoothedPosition.y, minHeight, maxHeight);
@@ -39,5 +41,5 @@ public class SmoothFollow2DCamera : MonoBehaviour
         {
             transform.LookAt(target);
         }
-    }
+    }       
 }
