@@ -99,12 +99,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void skill () {
-        if (skillButton.Pressed || Input.GetKeyDown ("q") && Time.time > nextskill) {
+        if ((skillButton.Pressed || Input.GetKeyDown ("q") )&& Time.time > nextskill) {
             consumeMana();
             bulletPosition = gun_effect.position;
             nextskill = Time.time + skillCooldown;
             bulletStack = 5;
             anim.animator.SetBool ("isSkillButtonActive", true);
+            skillButton.GetComponent<Button>().interactable = false;
+            skillButton.cooldown(skillCooldown);
             StartCoroutine (setSkillSequence (0.2f, 0.1f));
             StartCoroutine (resetSkill (skillCooldown));
         }
@@ -137,7 +139,8 @@ public class PlayerController : MonoBehaviour {
     }
     IEnumerator resetSkill (float waitTime) {
         yield return new WaitForSeconds (waitTime);
-        skillButton.Pressed = false;
+        skillButton.GetComponent<Button>().interactable = false;
+        //skillButton.Pressed = false;
     }
 
     IEnumerator setSkillSequence (float delay, float nextBulletTime) {

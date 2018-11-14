@@ -33,8 +33,7 @@ public class EventController : MonoBehaviour {
         }
     }
     public void blockingAreaActive () {
-        temp = camera.transform.position.x;
-        camera.transform.position = new Vector2(temp,camera.transform.position.y);
+        
     }
     void blockingCamera () {
 
