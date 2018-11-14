@@ -2,18 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class JumpButton : MonoBehaviour,IPointerUpHandler,IPointerDownHandler{
+public class JumpButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler {
 
-	[HideInInspector]
+    [HideInInspector]
     public bool Pressed;
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    public Image cooldownImg;
+    public bool isJump;
+
+    public void OnPointerDown (PointerEventData eventData) {
         Pressed = true;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
+    public void OnPointerUp (PointerEventData eventData) {
         Pressed = false;
-    }    
+    }
+    
+    void FixedUpdate () {
+        if (isJump) {
+            cooldownImg.fillAmount = 1;
+        } else {
+            cooldownImg.fillAmount = 0;
+        }
+    }
 }

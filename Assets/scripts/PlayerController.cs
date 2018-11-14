@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour {
 
         if (isGrounded) {
             isJump = false;
+            jumpButton.isJump = false;
             anim.animator.SetBool ("isJumpButtonActive", false);
             if (jumpButton.Pressed || Input.GetKeyDown ("space")) {
                 isJump = true;
@@ -190,6 +191,7 @@ public class PlayerController : MonoBehaviour {
             }
         } else {
             if (isWalk) isWalk = false;
+            jumpButton.isJump = true;
         }
 
     }
