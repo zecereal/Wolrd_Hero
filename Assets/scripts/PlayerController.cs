@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour {
     public GameObject bullet_Right;
     public GameObject bullet_Left;
 
-    private float dashrate = 2f;
     private float nextdash = 0.0f;
 
     private float dashCooldown = 5f;
@@ -215,7 +214,7 @@ public class PlayerController : MonoBehaviour {
 
     void dash () {
         if ((dashButton.Pressed || Input.GetKeyDown ("r")) && Time.time > nextdash) {
-            nextdash = Time.time + dashrate;
+            nextdash = Time.time + dashCooldown;
 
             if (isRight) {
                 myBody.AddForce (Vector2.right * dashVelocity);
@@ -223,6 +222,9 @@ public class PlayerController : MonoBehaviour {
                 myBody.AddForce (Vector2.left * dashVelocity);
             }
             anim.animator.SetBool ("isDashButtonActive", true);
+
+            dashButton.GetComponent<Button>().interactable = false;
+            dashButton.cooldown(dashCooldown);
             StartCoroutine (resetDashAnimation (0.5f));
             StartCoroutine (resetVelocity (dashCooldown));
         }
@@ -231,11 +233,14 @@ public class PlayerController : MonoBehaviour {
     IEnumerator resetDashAnimation (float waitTime) {
         yield return new WaitForSeconds (waitTime);
         anim.animator.SetBool ("isDashButtonActive", false);
+        
     }
     private IEnumerator resetVelocity (float waitTime) {
         yield return new WaitForSeconds (waitTime);
         myBody.velocity = new Vector3 (0, 0, 0);
-        dashButton.Pressed = false;
+        dashButton.GetComponent<Button>().interactable = true;
+        
+        
     }
 
     void dead () {
