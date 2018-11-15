@@ -23,7 +23,19 @@ public class BossController : MonoBehaviour {
     private bool isAttacking;
 
     private bool isRight;
+
+    private float skillCooldown = 10f;
+    private float next_skill = 0.0f;
     public Collider2D collider;
+
+    private float charging_time = 3f;
+
+    private bool isHit;
+
+    private bool isSkill;
+
+    private bool isCharging;
+
     void Start () {
         target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Transform> ();
         boss_sprite = GameObject.Find ("Jason").GetComponent<Transform> ();
@@ -31,7 +43,12 @@ public class BossController : MonoBehaviour {
         isWalking = false;
         isAttacking = false;
         isRight = false;
+        isSkill = false;
+        isCharging = false;
+        boss_hp = GameObject.Find ("boss_hp").GetComponent<Slider> ();
         boss_animator = anim.getBossAnimator ();
+
+        next_skill = skillCooldown;
     }
 
     public int getAttackPower () {
@@ -39,7 +56,7 @@ public class BossController : MonoBehaviour {
     }
     public void takeDamage (int damage) {
         currentHp -= damage;
-        if(currentHp<=0) currentHp=0;
+        if (currentHp <= 0) currentHp = 0;
         float hp_size = currentHp / maxHp;
         boss_hp.value = hp_size;
     }
@@ -58,14 +75,21 @@ public class BossController : MonoBehaviour {
 
     void chaseTarget () {
 
-        if (Vector2.Distance (transform.position, target.position) > stopDistance && !isAttacking) {
-            isWalking = true;
-            walk ();
-            transform.position = Vector2.MoveTowards (transform.position, target.position, speed * Time.deltaTime);
+        if (Vector2.Distance (transform.position, target.position) > stopDistance) {
+            if (Time.time > next_skill) {
+                
+                chargeAndChase ();
+            } else if (Time.time <= next_skill && !isSkill) {
+                isWalking = true;
+                walk ();
+            }
         } else {
             attack ();
         }
 
+        if(isCharging){
+            transform.position = Vector2.MoveTowards (transform.position, target.position, speed * Time.deltaTime);
+        }
     }
 
     void walk () {
@@ -79,6 +103,8 @@ public class BossController : MonoBehaviour {
         } else if (transform.position.x > target.position.x) {
             if (isRight) Flip ();
         }
+
+        transform.position = Vector2.MoveTowards (transform.position, target.position, speed * Time.deltaTime);
     }
 
     void Flip () {
@@ -100,9 +126,56 @@ public class BossController : MonoBehaviour {
         isAttacking = false;
         boss_animator.SetBool ("isAttack", false);
     }
-    void Update () {
+
+    void chargeAndChase () {
+        isSkill = true;
+        isCharging = true;
+        isWalking = false;
+
+        next_skill = Time.time + skillCooldown;
+        boss_animator.SetBool ("isSkill", true);
+        boss_animator.SetBool ("isAttack", false);
+        boss_animator.SetBool ("isWalk", false);
+        speed = 3;
+        
+        if (isHit) {
+            StartCoroutine (hitAttack (0f));
+        } else {
+            StartCoroutine (hitAttack (charging_time));
+        }
+
+    }
+
+    IEnumerator hitAttack (float waitTime) {
+        yield return new WaitForSeconds (waitTime);
+        boss_animator.SetBool ("isAttackHitted", true);
+        isCharging = false;
+        StartCoroutine (resetSkill (3f));
+    }
+
+    IEnumerator resetSkill (float waitTime) {
+        boss_animator.SetBool ("isSkill", false);
+        yield return new WaitForSeconds (waitTime);
+        boss_animator.SetBool ("isAttackHitted", false);
+        isSkill = false;
+        speed = 1;
+    }
+    void FixedUpdate () {
         die ();
         chaseTarget ();
         Physics2D.IgnoreLayerCollision (9, 12);
+    }
+
+    private void OnCollisionEnter2D (Collision2D other) {
+        if (other.collider.CompareTag ("Player")) {
+            isHit = true;
+            Debug.Log("Hit");
+        }
+    }
+
+    private void OnCollisionExit (Collision other) {
+        if (other.collider.CompareTag ("Player")) {
+            isHit = false;
+        }
     }
 }

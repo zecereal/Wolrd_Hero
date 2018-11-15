@@ -199,7 +199,6 @@ public class PlayerController : MonoBehaviour {
     void hurt (int damage) {
         currentHp -= damage;
         setHPBarSize ();
-        //healthBar.setSize (hp_size);
         anim.animator.SetBool ("isHurt", true);
         StartCoroutine (Knockback (knockback_time));
         StartCoroutine (resetVelocity (5.0f));
