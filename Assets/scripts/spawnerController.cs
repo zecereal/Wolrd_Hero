@@ -49,7 +49,7 @@ public class spawnerController : MonoBehaviour {
 	}
 
 	void spawnBoss () {
-		Instantiate (boss, new Vector2 (position.x + 25, position.y), Quaternion.identity);
+		Instantiate (boss, new Vector2 (this.transform.position.x + 25, position.y), Quaternion.identity);
 		boss_hp.SetActive (true);
 	}
 	private void OnCollisionEnter2D (Collision2D other) {

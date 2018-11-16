@@ -98,12 +98,6 @@ public class BossController : MonoBehaviour {
             boss_animator.SetBool ("isAttack", false);
         }
 
-        if (transform.position.x < target.position.x) {
-            if (!isRight) Flip ();
-        } else if (transform.position.x > target.position.x) {
-            if (isRight) Flip ();
-        }
-
         transform.position = Vector2.MoveTowards (transform.position, target.position, speed * Time.deltaTime);
     }
 
@@ -138,12 +132,7 @@ public class BossController : MonoBehaviour {
         boss_animator.SetBool ("isWalk", false);
         speed = 3;
         
-        if (isHit) {
-            StartCoroutine (hitAttack (0f));
-        } else {
-            StartCoroutine (hitAttack (charging_time));
-        }
-
+        StartCoroutine (hitAttack (charging_time));
     }
 
     IEnumerator hitAttack (float waitTime) {
@@ -163,6 +152,13 @@ public class BossController : MonoBehaviour {
     void FixedUpdate () {
         die ();
         chaseTarget ();
+
+        if (transform.position.x < target.position.x) {
+            if (!isRight) Flip ();
+        } else if (transform.position.x > target.position.x) {
+            if (isRight) Flip ();
+        }
+        
         Physics2D.IgnoreLayerCollision (9, 12);
     }
 
