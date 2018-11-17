@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212705771873386872}
   - component: {fileID: 61276977783220456}
   - component: {fileID: 50271615028362440}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: first_aid
   m_TagString: first_aid
   m_Icon: {fileID: 0}

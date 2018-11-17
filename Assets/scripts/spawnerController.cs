@@ -61,7 +61,7 @@ public class spawnerController : MonoBehaviour {
 		if (enemyQuantity != 0) spawnEnemy (enemyQuantity);
 		if (isCreteSpawner) spawnCrete ();
 		if (isBossZone) spawnBoss ();
-
+ 
 	}
 
 }

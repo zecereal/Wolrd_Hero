@@ -1027,8 +1027,8 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 1
-  m_Mass: 4.5626006
+  m_UseAutoMass: 0
+  m_Mass: 10000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 5
@@ -1515,6 +1515,8 @@ MonoBehaviour:
   attack_power: 1
   attack_rate: 0.5
   next_attack: 0
+  growing_tree: {fileID: 1476099602527088, guid: 9171c0acdafc5f24f9215f298b9d6bcd,
+    type: 2}
   anim: {fileID: 114865879371155012}
   healthBar: {fileID: 114742808803095464}
   isRight: 0

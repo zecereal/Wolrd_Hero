@@ -265,6 +265,13 @@ public class PlayerController : MonoBehaviour {
         setHPBarSize ();
 
     }
+
+    void regenerateMana(float percent){
+        float regen = (percent / 100f) * maxMana;
+        current_mana += regen;
+        if (current_mana >= maxMana) current_mana = maxMana;
+        setManaBarSize ();
+    }
     void FixedUpdate () {
         isGrounded = Physics2D.Linecast (myTrans.position, tagGround.position, playerMask);
         attack ();
@@ -287,6 +294,7 @@ public class PlayerController : MonoBehaviour {
             hurt (bossDamage);
         } else if (other.collider.CompareTag ("first_aid")) {
             regenerateHP (20f);
+            regenerateMana(30f);
             Destroy (other.collider.gameObject);
         } else if (other.collider.CompareTag ("item")) {
             Destroy (other.collider.gameObject);
@@ -299,7 +307,6 @@ public class PlayerController : MonoBehaviour {
             eventsystem.blockingAreaActive ();
             Debug.Log ("ignore is not affect");
         }
-
     }
 
 }

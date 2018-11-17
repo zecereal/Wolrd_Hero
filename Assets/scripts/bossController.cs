@@ -16,6 +16,7 @@ public class BossController : MonoBehaviour {
     public float next_attack;
 
     public GameObject growing_tree;
+    public GameObject first_aid;
 
     public BossAnimationController anim;
     private Animator boss_animator;
@@ -62,6 +63,11 @@ public class BossController : MonoBehaviour {
         if (currentHp <= 0) currentHp = 0;
         float hp_size = currentHp / maxHp;
         boss_hp.value = hp_size;
+
+        if (currentHp % 12 == 0)
+        {
+            Instantiate (first_aid,  this.gameObject.transform.position, Quaternion.identity);
+        }
     }
 
     void die () {
@@ -163,13 +169,13 @@ public class BossController : MonoBehaviour {
             if (isRight) Flip ();
         }
         
+
         Physics2D.IgnoreLayerCollision (9, 12);
     }
 
     private void OnCollisionEnter2D (Collision2D other) {
         if (other.collider.CompareTag ("Player")) {
             isHit = true;
-            Debug.Log("Hit");
         }
     }
 

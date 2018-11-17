@@ -11,10 +11,9 @@ public class CreteController : MonoBehaviour {
 
     private int randomNum;
     public void dropItem(){
-        randomNum = Random.Range(0,2);
-        Debug.Log(randomNum);
+        //randomNum = Random.Range(0,2);
         position = transform.position;
-        
+                
         if(randomNum == 0){
             Instantiate (first_aid,  position, Quaternion.identity);
         }else if(randomNum == 1){
