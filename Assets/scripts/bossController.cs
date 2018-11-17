@@ -14,6 +14,9 @@ public class BossController : MonoBehaviour {
 
     public float attack_rate;
     public float next_attack;
+
+    public GameObject growing_tree;
+
     public BossAnimationController anim;
     private Animator boss_animator;
     private Transform target;
@@ -71,6 +74,7 @@ public class BossController : MonoBehaviour {
         Debug.Log ("dead");
         yield return new WaitForSeconds (waitTime);
         Destroy (gameObject);
+        Instantiate (growing_tree,new Vector2(this.transform.position.x,this.transform.position.y+5), Quaternion.identity);
     }
 
     void chaseTarget () {

@@ -13,6 +13,9 @@ public class EnemyController : MonoBehaviour {
 
     public float attack_rate;
     public float next_attack;
+
+    public GameObject growing_tree;
+    
     public EnemyAnimationController anim;
     private Animator enemy_animator;
     private Transform target;
@@ -54,6 +57,7 @@ public class EnemyController : MonoBehaviour {
     IEnumerator DestroyItself (float waitTime) {
         yield return new WaitForSeconds (waitTime);
         Destroy (gameObject);
+        Instantiate (growing_tree,new Vector2(this.transform.position.x,this.transform.position.y+5), Quaternion.identity);
         eventController.decreseEnemy ();
     }
 

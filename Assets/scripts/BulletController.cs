@@ -14,7 +14,7 @@ public class BulletController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb = gameObject.GetComponent<Rigidbody2D> ();
-        Invoke("autoDestroy",timer);
+        Invoke ("autoDestroy", timer);
     }
 
     void checkColliosion () {
@@ -24,20 +24,17 @@ public class BulletController : MonoBehaviour {
                 Debug.Log ("hit");
                 hitinfo.collider.GetComponent<EnemyController> ().takeDamage (damage);
                 Destroy (gameObject);
-            }else if (hitinfo.collider.CompareTag ("Boss")) {
+            } else if (hitinfo.collider.CompareTag ("Boss")) {
                 Debug.Log ("Boss hit");
                 hitinfo.collider.GetComponent<BossController> ().takeDamage (damage);
                 Destroy (gameObject);
-            }else if(hitinfo.collider.CompareTag("box")){
-                hitinfo.collider.GetComponent<CreteController>().dropItem();
-                Destroy (gameObject);                
+            } else if (hitinfo.collider.CompareTag ("box")) {
+                hitinfo.collider.GetComponent<CreteController> ().dropItem ();
+                Destroy (gameObject);
             }
         }
     }
 
-    void autoDestroy () {
-        Destroy(gameObject);
-    }
     // Update is called once per frame
     void FixedUpdate () {
         rb.velocity = new Vector2 (velX, velY);
