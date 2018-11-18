@@ -45,7 +45,7 @@ public class spawnerController : MonoBehaviour {
 	}
 
 	void spawnCrete () {
-		Instantiate (crete, new Vector2 (position.x + 25, position.y), Quaternion.identity);
+		Instantiate (crete, new Vector2 (this.transform.position.x + 25, position.y), Quaternion.identity);
 	}
 
 	void spawnBoss () {
@@ -56,7 +56,7 @@ public class spawnerController : MonoBehaviour {
 	}
 	private void OnCollisionEnter2D (Collision2D other) {
 
-		if (other.collider.CompareTag ("Player")) {
+		if (other.collider.CompareTag ("Player")||other.collider.CompareTag ("Enemy")) {
 			Destroy (gameObject);
 		}
 

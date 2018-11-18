@@ -14,9 +14,13 @@ public class BulletController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         rb = gameObject.GetComponent<Rigidbody2D> ();
-        Invoke ("autoDestroy", timer);
+        StartCoroutine(autoDestroy(5f));
     }
 
+    IEnumerator autoDestroy(float waitTime){
+        yield return new WaitForSeconds(waitTime);
+        Destroy(gameObject);        
+    }
     void checkColliosion () {
         RaycastHit2D hitinfo = Physics2D.Raycast (transform.position, transform.up, distance, solid);
         if (hitinfo.collider != null) {
