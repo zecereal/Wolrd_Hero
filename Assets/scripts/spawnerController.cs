@@ -45,10 +45,12 @@ public class spawnerController : MonoBehaviour {
 	}
 
 	void spawnCrete () {
-		Instantiate (crete, new Vector2 (position.x, position.y), Quaternion.identity);
+		Instantiate (crete, new Vector2 (position.x + 25, position.y), Quaternion.identity);
 	}
 
 	void spawnBoss () {
+		eventController.increseEnemy ();
+		eventController.isBossAppeared = true;
 		Instantiate (boss, new Vector2 (this.transform.position.x + 25, position.y), Quaternion.identity);
 		boss_hp.SetActive (true);
 	}

@@ -40,7 +40,12 @@ public class BossController : MonoBehaviour {
 
     private bool isCharging;
 
+    private LevelLoader level;
+
+    public EventController eventController;
+
     void Start () {
+        eventController = GameObject.Find ("EventSystem").GetComponent<EventController> ();
         target = GameObject.FindGameObjectWithTag ("Player").GetComponent<Transform> ();
         boss_sprite = GameObject.Find ("Jason").GetComponent<Transform> ();
         currentHp = maxHp;
@@ -49,10 +54,10 @@ public class BossController : MonoBehaviour {
         isRight = false;
         isSkill = false;
         isCharging = false;
+        next_skill = skillCooldown;
         boss_hp = GameObject.Find ("boss_hp").GetComponent<Slider> ();
         boss_animator = anim.getBossAnimator ();
-
-        next_skill = skillCooldown;
+        level = FindObjectOfType<LevelLoader> ();
     }
 
     public int getAttackPower () {
@@ -64,30 +69,31 @@ public class BossController : MonoBehaviour {
         float hp_size = currentHp / maxHp;
         boss_hp.value = hp_size;
 
-        if (currentHp % 12 == 0)
-        {
-            Instantiate (first_aid,  this.gameObject.transform.position, Quaternion.identity);
+        if (currentHp % 12 == 0) {
+            Instantiate (first_aid, this.gameObject.transform.position, Quaternion.identity);
         }
     }
 
     void die () {
         if (currentHp <= 0) {
             boss_animator.SetBool ("isHpLessThanOne", true);
+            boss_animator.SetBool ("isWalk", false);
+            boss_animator.SetBool ("isSkill", false);
+            boss_animator.SetBool ("isAttack", false);
+            boss_animator.SetBool ("isAttackHitted", false);
             StartCoroutine (DestroyItself (1f));
         }
     }
     IEnumerator DestroyItself (float waitTime) {
-        Debug.Log ("dead");
         yield return new WaitForSeconds (waitTime);
         Destroy (gameObject);
-        Instantiate (growing_tree,new Vector2(this.transform.position.x,this.transform.position.y+5), Quaternion.identity);
+        eventController.decreseEnemy ();
+        Instantiate (growing_tree, new Vector2 (this.transform.position.x, this.transform.position.y + 5), Quaternion.identity);
     }
 
     void chaseTarget () {
-
         if (Vector2.Distance (transform.position, target.position) > stopDistance) {
             if (Time.time > next_skill) {
-                
                 chargeAndChase ();
             } else if (Time.time <= next_skill && !isSkill) {
                 isWalking = true;
@@ -97,7 +103,7 @@ public class BossController : MonoBehaviour {
             attack ();
         }
 
-        if(isCharging){
+        if (isCharging) {
             transform.position = Vector2.MoveTowards (transform.position, target.position, speed * Time.deltaTime);
         }
     }
@@ -141,7 +147,7 @@ public class BossController : MonoBehaviour {
         boss_animator.SetBool ("isAttack", false);
         boss_animator.SetBool ("isWalk", false);
         speed = 3;
-        
+
         StartCoroutine (hitAttack (charging_time));
     }
 
@@ -168,7 +174,6 @@ public class BossController : MonoBehaviour {
         } else if (transform.position.x > target.position.x) {
             if (isRight) Flip ();
         }
-        
 
         Physics2D.IgnoreLayerCollision (9, 12);
     }

@@ -12,11 +12,6 @@ public class LevelLoader : MonoBehaviour {
 
 	public static bool isPlayed;
 
-	void Start()
-	{
-		isPlayed = false;
-	}
-
 	public void LoadLevel(int sceneIndex){
 		if(sceneIndex == 0){
 			isPlayed = true;

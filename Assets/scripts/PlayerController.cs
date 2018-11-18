@@ -306,11 +306,4 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    private void OnCollisionStay2D (Collision2D other) {
-        if (other.collider.CompareTag ("Blocking_area")) {
-            eventsystem.blockingAreaActive ();
-            Debug.Log ("ignore is not affect");
-        }
-    }
-
 }
