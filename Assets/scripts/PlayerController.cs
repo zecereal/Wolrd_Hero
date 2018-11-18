@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour {
     public GameObject bullet_Right;
     public GameObject bullet_Left;
 
+    public GameObject hurt_effect;
+
     private float nextdash = 0.0f;
 
     private float dashCooldown = 5f;
@@ -69,6 +71,7 @@ public class PlayerController : MonoBehaviour {
 
         tagGround = GameObject.Find (this.name + "/tag_ground").transform;
         gun_effect = GameObject.Find (this.name + "/Catman/GunFireEffect").transform;
+        
 
         currentHp = maxHp;
         current_mana = maxMana;
@@ -98,14 +101,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void skill () {
-        if ((skillButton.Pressed || Input.GetKeyDown ("q") )&& Time.time > nextskill) {
-            consumeMana();
+        if ((skillButton.Pressed || Input.GetKeyDown ("q")) && Time.time > nextskill) {
+            consumeMana ();
             bulletPosition = gun_effect.position;
             nextskill = Time.time + skillCooldown;
             bulletStack = 5;
             anim.animator.SetBool ("isSkillButtonActive", true);
-            skillButton.GetComponent<Button>().interactable = false;
-            skillButton.cooldown(skillCooldown);
+            skillButton.GetComponent<Button> ().interactable = false;
+            skillButton.cooldown (skillCooldown);
             StartCoroutine (setSkillSequence (0.2f, 0.1f));
             StartCoroutine (resetSkill (skillCooldown));
         }
@@ -138,7 +141,7 @@ public class PlayerController : MonoBehaviour {
     }
     IEnumerator resetSkill (float waitTime) {
         yield return new WaitForSeconds (waitTime);
-        skillButton.GetComponent<Button>().interactable = false;
+        skillButton.GetComponent<Button> ().interactable = false;
         //skillButton.Pressed = false;
     }
 
@@ -200,6 +203,7 @@ public class PlayerController : MonoBehaviour {
         currentHp -= damage;
         setHPBarSize ();
         anim.animator.SetBool ("isHurt", true);
+        
         StartCoroutine (Knockback (knockback_time));
         StartCoroutine (resetVelocity (5.0f));
     }
@@ -210,6 +214,7 @@ public class PlayerController : MonoBehaviour {
     }
     IEnumerator Knockback (float waitTime) {
         yield return new WaitForSeconds (waitTime);
+        
         anim.animator.SetBool ("isHurt", false);
     }
 
@@ -224,8 +229,8 @@ public class PlayerController : MonoBehaviour {
             }
             anim.animator.SetBool ("isDashButtonActive", true);
 
-            dashButton.GetComponent<Button>().interactable = false;
-            dashButton.cooldown(dashCooldown);
+            dashButton.GetComponent<Button> ().interactable = false;
+            dashButton.cooldown (dashCooldown);
             StartCoroutine (resetDashAnimation (0.5f));
             StartCoroutine (resetVelocity (dashCooldown));
         }
@@ -234,14 +239,13 @@ public class PlayerController : MonoBehaviour {
     IEnumerator resetDashAnimation (float waitTime) {
         yield return new WaitForSeconds (waitTime);
         anim.animator.SetBool ("isDashButtonActive", false);
-        
+
     }
     private IEnumerator resetVelocity (float waitTime) {
         yield return new WaitForSeconds (waitTime);
         myBody.velocity = new Vector3 (0, 0, 0);
-        dashButton.GetComponent<Button>().interactable = true;
-        
-        
+        dashButton.GetComponent<Button> ().interactable = true;
+
     }
 
     void dead () {
@@ -266,7 +270,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void regenerateMana(float percent){
+    void regenerateMana (float percent) {
         float regen = (percent / 100f) * maxMana;
         current_mana += regen;
         if (current_mana >= maxMana) current_mana = maxMana;
@@ -294,7 +298,7 @@ public class PlayerController : MonoBehaviour {
             hurt (bossDamage);
         } else if (other.collider.CompareTag ("first_aid")) {
             regenerateHP (20f);
-            regenerateMana(30f);
+            regenerateMana (30f);
             Destroy (other.collider.gameObject);
         } else if (other.collider.CompareTag ("item")) {
             Destroy (other.collider.gameObject);

@@ -45,7 +45,7 @@ public class spawnerController : MonoBehaviour {
 	}
 
 	void spawnCrete () {
-		Instantiate (crete, new Vector2 (position.x + 25, position.y), Quaternion.identity);
+		Instantiate (crete, new Vector2 (position.x, position.y), Quaternion.identity);
 	}
 
 	void spawnBoss () {
