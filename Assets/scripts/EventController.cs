@@ -29,6 +29,10 @@ public class EventController : MonoBehaviour {
 
     public void decreseEnemy () {
         enemyQuantity--;
+        if (enemyQuantity <= 0)
+        {
+            enemyQuantity = 0;
+        }
     }
 
     void checkPlayerAlive () {

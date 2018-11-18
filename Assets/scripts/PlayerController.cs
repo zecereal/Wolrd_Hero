@@ -71,7 +71,6 @@ public class PlayerController : MonoBehaviour {
 
         tagGround = GameObject.Find (this.name + "/tag_ground").transform;
         gun_effect = GameObject.Find (this.name + "/Catman/GunFireEffect").transform;
-        
 
         currentHp = maxHp;
         current_mana = maxMana;
@@ -100,6 +99,13 @@ public class PlayerController : MonoBehaviour {
         anim.animator.SetBool ("isAttackButtonActive", false);
     }
 
+    void checkSkillCanUse () {
+        if (current_mana <= 20) {
+            skillButton.cooldownImg.fillAmount = 1;
+        } else {
+            skillButton.cooldownImg.fillAmount = 0;
+        }
+    }
     void skill () {
         if ((skillButton.Pressed || Input.GetKeyDown ("q")) && Time.time > nextskill) {
             consumeMana ();
@@ -203,7 +209,7 @@ public class PlayerController : MonoBehaviour {
         currentHp -= damage;
         setHPBarSize ();
         anim.animator.SetBool ("isHurt", true);
-        
+
         StartCoroutine (Knockback (knockback_time));
         StartCoroutine (resetVelocity (5.0f));
     }
@@ -214,7 +220,7 @@ public class PlayerController : MonoBehaviour {
     }
     IEnumerator Knockback (float waitTime) {
         yield return new WaitForSeconds (waitTime);
-        
+
         anim.animator.SetBool ("isHurt", false);
     }
 
@@ -284,7 +290,7 @@ public class PlayerController : MonoBehaviour {
         dash ();
         skill ();
         dead ();
-
+        checkSkillCanUse();
         //Physics2D.IgnoreLayerCollision (8,11);
     }
 
